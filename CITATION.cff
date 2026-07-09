@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+title: 'x402-zkSync: HTTP 402 Payment-Gated Routing on zkSync Era'
+version: 1.0.0
+date-released: '2026-07-09'
+type: software
+authors:
+  - family-names: Patterson
+    given-names: Richard
+    alias: De-ASI-INTERFACE
+    country: US
+repository-code: 'https://github.com/De-ASI-INTERFACE/x402-zksync-extension'
+license: MIT
+abstract: >-
+  x402 HTTP 402 payment-gated routing for zkSync Era. ERC-20/ETH payment
+  gates, native AA IAccount.validateTransaction, SyncSwap v2 routing,
+  EraVM ZK validity proofs, nonce replay prevention, Lean 4 formal proofs.
+keywords: [zksync, era, native-aa, syncswap, eravm, x402, http-402, lean4, mathlib, richard-patterson]
