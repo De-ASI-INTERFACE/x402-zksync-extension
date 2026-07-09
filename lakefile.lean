@@ -2,7 +2,7 @@ import Lake
 open Lake DSL
 
 package «x402-zksync» where
-  name := "x402-zksync"
+  version := v!"0.1.0"
 
 require mathlib from git
   "https://github.com/leanprover-community/mathlib4" @ "v4.14.0"
