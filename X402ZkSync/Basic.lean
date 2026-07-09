@@ -1,34 +1,29 @@
--- x402-zkSync Era Basic | Author: Richard Patterson (@De-ASI-INTERFACE)
-import Mathlib.Data.Finset.Basic
-import Mathlib.Data.Nat.Basic
+-- ============================================================
+-- x402-zkSync: Basic Re-export Shim
+-- Author: Richard Patterson (@De-ASI-INTERFACE)
+-- Date: 2026-07-09
+-- Chain: zkSync Era / ERC-20 Native AA / SyncSwap v2
+--
+-- Re-exports X402ZkSync.PaymentVerification as the single
+-- authoritative source of all shared types and definitions.
+-- Chain-prefixed theorem aliases are provided for ergonomic use.
+-- ============================================================
+import X402ZkSync.PaymentVerification
 
 namespace X402ZkSync
 
-/-- Payment authorization for zkSync Era native AA payment gates -/
-structure PaymentAuth where
-  nonce      : Nat
-  amount     : Nat
-  expires_at : Nat
-  deriving Repr, DecidableEq
-
-/-- AA account state tracking used nonces (EraVM nonce manager) -/
-structure AccountState where
-  used_nonces : Finset Nat
-  block_time  : Nat
-  deriving Repr
-
-/-- Verification: nonce unused and within expiry window -/
-def verify (a : PaymentAuth) (s : AccountState) : Prop :=
-  a.nonce ∉ s.used_nonces ∧ s.block_time ≤ a.expires_at
-
-/-- Replay prevention theorem -/
+/-- Alias: replay prevention under the zkSync chain prefix.
+    result type: a.nonce ∉ s.used_nonces. -/
 theorem zksync_replay_prevented
-    (a : PaymentAuth) (s : AccountState) (h : verify a s)
-    : a.nonce ∉ s.used_nonces := h.1
+    (a : PaymentAuth) (s : FacilitatorState) (h : verify a s) :
+    a.nonce ∉ s.used_nonces :=
+  replay_prevented a s h
 
-/-- Expiry theorem -/
+/-- Alias: expiry enforcement under the zkSync chain prefix.
+    Delegates to within_expiry: s.block_time ≤ a.expires_at. -/
 theorem zksync_not_expired
-    (a : PaymentAuth) (s : AccountState) (h : verify a s)
-    : s.block_time ≤ a.expires_at := h.2
+    (a : PaymentAuth) (s : FacilitatorState) (h : verify a s) :
+    s.block_time ≤ a.expires_at :=
+  within_expiry a s h
 
 end X402ZkSync
